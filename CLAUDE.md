@@ -1,5 +1,13 @@
 # duan — Guidelines
 
+## Status: unpublished
+
+`duan.life` no longer serves the app — it serves the blank page in [offline/](offline/),
+deployed by [.github/workflows/blank.yml](.github/workflows/blank.yml). The app's
+pipeline is preserved but inert in `.github/workflows/deploy.yml.disabled`. Everything
+below still describes the app, which is untouched; just don't assume a live site.
+See the "Déploiement" section of [README.md](README.md) to republish.
+
 ## Stack
 
 - React 19 + Vite 8 + TypeScript 5 (strict) + Tailwind 3.4.

@@ -1,0 +1,49 @@
+# Serve a blank page at https://duan.life.
+#
+# The app is unpublished: this workflow deploys the hand-written static site in
+# `offline/` (an empty, noindex page + a matching 404 so deep links stay blank
+# too) instead of the Vite build. Keeping `offline/CNAME` re-binds duan.life to
+# this repository, so the DNS records cannot be claimed by anyone else.
+#
+# To republish the app: rename `.github/workflows/deploy.yml.disabled` back to
+# `deploy.yml` and delete this file (and `offline/`).
+name: Deploy (blank)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          # Pages was unpublished by hand; turn it back on for the blank site.
+          enablement: true
+      # No npm, no build, no scripts/build-secrets.mjs — the encrypted PAT
+      # bundle is deliberately not published any more.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: offline
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

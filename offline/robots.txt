@@ -1,0 +1,3 @@
+# duan.life is unpublished - ask search engines to drop every path.
+User-agent: *
+Disallow: /
